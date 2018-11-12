@@ -53,4 +53,7 @@ def anal_all():
                 os.makedirs(dir)
             except OSError:
                 pass
-            anal(filepath, outfile)
+            if not os.path.exists(outfile):
+                anal(filepath, outfile)
+            else:
+                print "skip exist result" + outfile
