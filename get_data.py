@@ -10,6 +10,7 @@ data_wd = os.path.join(cwd, 'data')
 
 # download url
 friends_s1_visual_url = "ftp://mldisk.sogang.ac.kr/data/vtt/S01_EP11_23_Visual_final.zip"
+friends_s1_image_url = "ftp://mldisk.sogang.ac.kr/data/vtt/S01_EP11_23_Friends_Images.zip"
 k_celeb_face1000_url = "ftp://mldisk.sogang.ac.kr/data/vtt/kr_celeb_crop_face_1000.zip"
 friends_s1_scene_place = "ftp://mldisk.sogang.ac.kr/data/vtt/Friends_S01_place.xlsx"
 
@@ -22,6 +23,7 @@ def check_and_downlaod(url, filename, unzip=False):
         print "...... Start Download " + filename
         wget.download(url, out=data_wd)
         if unzip:
+            print "...... Start Unzip " + filename
             with zipfile.ZipFile(file_path, "r") as zip_ref:
                 zip_ref.extractall(data_wd)
 
@@ -29,6 +31,7 @@ def check_and_downlaod(url, filename, unzip=False):
 
 # check
 check_and_downlaod(friends_s1_visual_url, 'S01_EP11_23_Visual_final.zip', unzip=True)
+check_and_downlaod(friends_s1_image_url, 'S01_EP11_23_Friends_Images.zip', unzip=True)
 check_and_downlaod(k_celeb_face1000_url, 'kr_celeb_crop_face_1000.zip', unzip=True)
 check_and_downlaod(friends_s1_scene_place, 'Friends_S01_place.xlsx')
 
