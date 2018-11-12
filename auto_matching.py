@@ -18,6 +18,15 @@ def anal(filename, outfile):
     print response.text
 
 
+def anal_obj(filename, outfile):
+    file = {'image' : (filename, open(filename, 'rb'), )}
+    response = requests.post(settings.ANAL_OBJ_SERVER_URL, files=file)
+
+    file = open(outfile, "w")
+    file.write(response.text)
+    file.close()
+    print response.text
+
 
 def getListOfFiles(dirName):
     # create a list of file and sub directories
@@ -47,6 +56,7 @@ def anal_all():
     for filepath in all_filepath:
         if filepath.split('.')[1] == 'jpg':
             outfile = filepath.replace('\\data\\', '\\result\\')
+            obj_outfile= outfile + '.obj_result'
             outfile = outfile + '.result'
             dir = os.path.dirname(outfile)
             try:
@@ -57,3 +67,10 @@ def anal_all():
                 anal(filepath, outfile)
             else:
                 print "skip exist result" + outfile
+
+            if not os.path.exists(obj_outfile):
+                anal_obj(filepath, obj_outfile)
+            else:
+                print "skip exist obj result" + obj_outfile
+
+
