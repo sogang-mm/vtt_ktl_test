@@ -31,3 +31,5 @@ def check_and_downlaod(url, filename, unzip=False):
 check_and_downlaod(friends_s1_visual_url, 'S01_EP11_23_Visual_final.zip', unzip=True)
 check_and_downlaod(k_celeb_face1000_url, 'kr_celeb_crop_face_1000.zip', unzip=True)
 check_and_downlaod(friends_s1_scene_place, 'Friends_S01_place.xlsx')
+
+print 'Done.'
