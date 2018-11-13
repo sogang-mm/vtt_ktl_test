@@ -183,5 +183,5 @@ def eval_all():
         overall
     )
     print
-    print overall
+    print eval_str
 

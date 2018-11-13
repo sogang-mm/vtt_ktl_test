@@ -11,6 +11,7 @@ data_wd = os.path.join(cwd, 'result')
 # download url
 friends_s1_image_result_url = "ftp://mldisk.sogang.ac.kr/data/vtt/result/S01_EP11_23_Friends_Images_result.zip"
 k_celeb_face1000_test_result_url = "ftp://mldisk.sogang.ac.kr/data/vtt/kr_celeb_crop_face_1000_test.zip"
+place_365_result = "ftp://mldisk.sogang.ac.kr/data/vtt/place365_result.zip"
 
 
 def check_and_downlaod(url, filename, unzip=False):
