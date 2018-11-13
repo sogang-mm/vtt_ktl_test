@@ -13,7 +13,6 @@ def get_result_path(filepath):
     return outfile, obj_outfile
 
 
-
 def anal(filename, outfile):
     param = {
         'modules' : 'friends'

@@ -3,3 +3,6 @@ data/
 venv/
 *.pyc
 result/
+testplace.result
+test.result
+test.py
