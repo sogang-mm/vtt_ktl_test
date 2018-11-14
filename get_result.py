@@ -30,5 +30,5 @@ def check_and_downlaod(url, filename, unzip=False):
 
 # check
 check_and_downlaod(friends_s1_image_result_url, 'S01_EP11_23_Friends_Images_result.zip', unzip=True)
-check_and_downlaod(k_celeb_face1000_test_result_url, 'kr_celeb_crop_face_1000_test.zip', unzip=True)
+check_and_downlaod(k_celeb_face1000_test_result_url, 'kr_celeb_crop_face_1000_testset_result.zip', unzip=True)
 print 'Done.'
