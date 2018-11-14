@@ -170,6 +170,7 @@ def eval_all():
     place_err = 1-place_acc
     obj_err = 1-obj_acc
 
+    # 1차년도 보고서에 작성한 pre defined weight
     face_weight = 0.4
     place_weight = 0.3
     obj_weight = 0.3
