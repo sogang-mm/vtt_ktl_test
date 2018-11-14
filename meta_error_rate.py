@@ -98,8 +98,7 @@ def anal_place_all():
                 print "skip exist result" + outfile
 
 
-
-def is_correct_top1(answer_file_path):
+def is_correct_face_top1(answer_file_path, verbose=False):
     with io.open(answer_file_path, encoding='utf-8') as data_file:
         data = json.load(data_file)
 
@@ -122,12 +121,39 @@ def is_correct_top1(answer_file_path):
         except:
             ret = False
 
-        print ret, max_desc, max_score
+        if verbose:
+            print ret, max_desc, max_score
 
         return ret
 
 
-def eval_face_all():
+def is_correct_face_top5(answer_file_path, verbose=False):
+    with io.open(answer_file_path, encoding='utf-8') as data_file:
+        data = json.load(data_file)
+
+        hit_score = 0.0
+        hit_desc = 'None'
+        ret = False
+
+        try:
+            labels = data['result'][0]['label']
+            for label in labels:
+                desc = label['description']
+                desc = desc.replace(' ', '_')
+                if answer_file_path.find(desc) > 0:
+                    hit_score = label['score']
+                    hit_desc = desc
+                    ret = True
+        except:
+            ret = False
+
+        if verbose:
+            print ret, hit_desc, hit_score
+
+        return ret
+
+
+def eval_face_accuracy():
     cwd = os.path.realpath(os.path.dirname(__file__))
     data_wd = os.path.join(cwd, 'result', 'kr_celeb_crop_face_1000_testset')
 
@@ -139,32 +165,39 @@ def eval_face_all():
 
     for filepath in all_filepath:
         face_cnt = face_cnt + 1
-        if is_correct_top1(filepath):
+        if is_correct_face_top5(filepath):
             hit_face_cnt = hit_face_cnt + 1
 
     ret_rate = float(hit_face_cnt)/float(face_cnt)
-    print
-    print "(hit) {} / {} (all)".format(hit_face_cnt, face_cnt)
-    print "Face Recognition Accuracy : {}".format(ret_rate)
+    print "Face Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_face_cnt, face_cnt)
 
     return ret_rate
 
-def eval_place_all():
+
+def eval_place_accuracy():
     # temp
+    # Place365 실험 결과 (TOP1)
 
-    return 0.55
+    hit_cnt = 19965
+    place_cnt = 36500
+    ret_rate = float(hit_cnt) / float(place_cnt)
+
+    print "Place Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_cnt, place_cnt)
+    return ret_rate
 
 
-def eval_object_all():
+def eval_object_accuracy():
     # ILSVRC 실험 결과
-    return 0.65
+    ret_rate = 0.65
 
+    print "Object Recognition Accuracy : {}".format(ret_rate)
+    return ret_rate
 
 
 def eval_all():
-    face_acc = eval_face_all()
-    place_acc = eval_place_all()
-    obj_acc = eval_object_all()
+    face_acc = eval_face_accuracy()
+    place_acc = eval_place_accuracy()
+    obj_acc = eval_object_accuracy()
 
     face_err = 1-face_acc
     place_err = 1-place_acc
@@ -175,14 +208,21 @@ def eval_all():
     place_weight = 0.3
     obj_weight = 0.3
 
+    # 목표 오류율
+    # 1차: 36
+    # 2차: 30
+    # 3차: 24
+
+
     overall = face_err * face_weight + place_err * place_weight + obj_err * obj_weight
 
-    eval_str = 'Error Rate = {} * face_err({}) + {} * place_err({}) + {} * object_err({}) = {}'.format(
+    eval_str = '(Error Rate = {} * face_err({}) + {} * place_err({}) + {} * object_err({}))'.format(
         face_weight, face_err,
         place_weight, place_err,
-        obj_weight, obj_err,
-        overall
+        obj_weight, obj_err
     )
     print
+    print 'Metadata Error Rate = {}'.format(overall)
     print eval_str
+
 

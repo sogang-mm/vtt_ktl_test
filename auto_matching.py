@@ -100,11 +100,26 @@ def get_person(person_data):
     return face_list, body_list
 
 
-def find_face(face_list):
-    return 1
+def find_face(face_list, image_file_name, result_file_name):
+    find_cnt = 0
+    with open(result_file_name) as data_file:
+        data = json.load(data_file)
+
+    for face in face_list:
+        for result_face in data['result']:
+            find_cnt = find_cnt + 1
+
+    return 0
 
 
-def find_object(obj_list):
+def find_object(obj_list, image_file_name, result_file_name):
+    find_cnt = 0
+    with open(result_file_name) as data_file:
+        data = json.load(data_file)
+
+    for obj in obj_list:
+        for result_obj in data['results']:
+            find_cnt = find_cnt + 1
     return 1
 
 
@@ -112,21 +127,30 @@ def eval(answer_file_path):
     with open(answer_file_path) as data_file:
         data = json.load(data_file)
 
+    # get image file list
+    cwd = os.path.realpath(os.path.dirname(__file__))
+    data_wd = os.path.join(cwd, 'result', 'S01_EP11_23_Friends_Images')
+    result_list = getListOfFiles(data_wd)
+
     hit_cnt = 0
     object_cnt = 0
 
     #print data['visual_results']
     for image_result in data['visual_results']:
         print '------------------------'
-        print image_result['image']
+        # find target result file path
+        face_result_file_path = result_list[0]
+        obj_result_file_path = result_list[1]
+
+        image_file_name = image_result['image']
         face_list, body_list = get_person(image_result['person'][0])
         obj_list = image_result['object']
         object_cnt = object_cnt + len(face_list)
-        hit_cnt = hit_cnt + find_face(face_list)
+        hit_cnt = hit_cnt + find_face(face_list, image_file_name, face_result_file_path)
         object_cnt = object_cnt + len(body_list)
-        hit_cnt = hit_cnt + find_object(body_list)
+        hit_cnt = hit_cnt + find_object(body_list, image_file_name, obj_result_file_path)
         object_cnt = object_cnt + len(obj_list)
-        hit_cnt = hit_cnt + find_object(obj_list)
+        hit_cnt = hit_cnt + find_object(obj_list, image_file_name, obj_result_file_path)
         print face_list
         print body_list
         print obj_list
@@ -149,5 +173,7 @@ def eval_all():
             all_obj_cnt = all_obj_cnt + obj_cnt
 
     print
-    print "(hit) {} / {} (all)".format(all_hit_cnt, all_obj_cnt)
-    print "Auto Matching Success Rate : {}".format(float(all_hit_cnt)/float(all_obj_cnt))
+    print "Auto Matching Success Rate : {} ({} / {})".format(
+        float(all_hit_cnt)/float(all_obj_cnt),
+        all_hit_cnt, all_obj_cnt
+    )
