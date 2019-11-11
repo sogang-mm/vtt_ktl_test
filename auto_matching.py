@@ -109,7 +109,7 @@ def find_face(face_list, image_file_name, result_file_name):
         for result_face in data['result']:
             find_cnt = find_cnt + 1
 
-    return 0
+    return 1
 
 
 def find_object(obj_list, image_file_name, result_file_name):

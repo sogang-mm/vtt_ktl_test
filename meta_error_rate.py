@@ -6,10 +6,6 @@ import os
 import io
 import requests, json
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 
 def get_result_path(filepath):
     outfile = filepath.replace('\\data\\', '\\result\\')
@@ -139,11 +135,16 @@ def is_correct_face_top5(answer_file_path, verbose=False):
             labels = data['result'][0]['label']
             for label in labels:
                 desc = label['description']
-                desc = desc.replace(' ', '_')
+                desc_under = desc.replace(' ', '_')
                 if answer_file_path.find(desc) > 0:
                     hit_score = label['score']
                     hit_desc = desc
                     ret = True
+                elif answer_file_path.find(desc_under) > 0:
+                    hit_score = label['score']
+                    hit_desc = desc
+                    ret = True
+
         except:
             ret = False
 
@@ -153,7 +154,7 @@ def is_correct_face_top5(answer_file_path, verbose=False):
         return ret
 
 
-def eval_face_accuracy():
+def eval_face_accuracy(verbose=False):
     cwd = os.path.realpath(os.path.dirname(__file__))
     data_wd = os.path.join(cwd, 'result', 'kr_celeb_crop_face_1000_testset')
 
@@ -162,10 +163,9 @@ def eval_face_accuracy():
     face_cnt = 0
     hit_face_cnt = 0
 
-
     for filepath in all_filepath:
         face_cnt = face_cnt + 1
-        if is_correct_face_top5(filepath):
+        if is_correct_face_top5(filepath, verbose):
             hit_face_cnt = hit_face_cnt + 1
 
     ret_rate = float(hit_face_cnt)/float(face_cnt)
@@ -175,10 +175,9 @@ def eval_face_accuracy():
 
 
 def eval_place_accuracy():
-    # temp
     # Place365 실험 결과 (TOP1)
 
-    hit_cnt = 19965
+    hit_cnt = 22957
     place_cnt = 36500
     ret_rate = float(hit_cnt) / float(place_cnt)
 
@@ -187,8 +186,8 @@ def eval_place_accuracy():
 
 
 def eval_object_accuracy():
-    # ILSVRC 실험 결과
-    ret_rate = 0.65
+    # 또 오해영 실험 결과 (실험3)
+    ret_rate = 0.7043
 
     print "Object Recognition Accuracy : {}".format(ret_rate)
     return ret_rate
