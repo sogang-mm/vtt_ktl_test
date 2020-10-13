@@ -175,9 +175,8 @@ def eval_face_accuracy(verbose=False):
 
 
 def eval_place_accuracy():
-    # Place365 실험 결과 (TOP1)
-
-    hit_cnt = 22957
+    # Place365 실험 결과 (TOP5)
+    hit_cnt = 30179
     place_cnt = 36500
     ret_rate = float(hit_cnt) / float(place_cnt)
 
@@ -211,7 +210,6 @@ def eval_all():
     # 1차: 36
     # 2차: 30
     # 3차: 24
-
 
     overall = face_err * face_weight + place_err * place_weight + obj_err * obj_weight
 
