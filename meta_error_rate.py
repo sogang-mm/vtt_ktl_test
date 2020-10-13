@@ -187,7 +187,7 @@ def eval_place_accuracy():
 
 def eval_object_accuracy():
     # 또 오해영 실험 결과 (실험3)
-    ret_rate = 0.7043
+    ret_rate = 0.7902
 
     print "Object Recognition Accuracy : {}".format(ret_rate)
     return ret_rate
