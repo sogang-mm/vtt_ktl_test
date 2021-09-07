@@ -21,7 +21,7 @@ def anal_face(filename, outfile):
     file = io.open(outfile, "w", encoding='utf-8')
     file.write(response.text)
     file.close()
-    print response.text
+    print(response.text)
 
 
 def getListOfFiles(dirName):
@@ -60,7 +60,7 @@ def anal_face_all():
             if not os.path.exists(outfile):
                 anal_face(filepath, outfile)
             else:
-                print "skip exist result" + outfile
+                print("skip exist result" + outfile)
 
 
 def anal_place(filename, outfile):
@@ -70,7 +70,7 @@ def anal_place(filename, outfile):
     file = io.open(outfile, "w", encoding='utf-8')
     file.write(response.text)
     file.close()
-    print response.text
+    print(response.text)
 
 
 def anal_place_all():
@@ -91,7 +91,7 @@ def anal_place_all():
             if not os.path.exists(outfile):
                 anal_place(filepath, outfile)
             else:
-                print "skip exist result" + outfile
+                print("skip exist result" + outfile)
 
 
 def is_correct_face_top1(answer_file_path, verbose=False):
@@ -118,7 +118,7 @@ def is_correct_face_top1(answer_file_path, verbose=False):
             ret = False
 
         if verbose:
-            print ret, max_desc, max_score
+            print(ret, max_desc, max_score)
 
         return ret
 
@@ -149,7 +149,7 @@ def is_correct_face_top5(answer_file_path, verbose=False):
             ret = False
 
         if verbose:
-            print ret, hit_desc, hit_score
+            print(ret, hit_desc, hit_score)
 
         return ret
 
@@ -158,7 +158,7 @@ def eval_face_accuracy(verbose=False):
     cwd = os.path.realpath(os.path.dirname(__file__))
     data_wd = os.path.join(cwd, 'result', 'kr_celeb_crop_face_1000_testset')
 
-    all_filepath = getListOfFiles(unicode(data_wd))
+    all_filepath = getListOfFiles(data_wd)
 
     face_cnt = 0
     hit_face_cnt = 0
@@ -169,7 +169,7 @@ def eval_face_accuracy(verbose=False):
             hit_face_cnt = hit_face_cnt + 1
 
     ret_rate = float(hit_face_cnt)/float(face_cnt)
-    print "Face Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_face_cnt, face_cnt)
+    print("Face Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_face_cnt, face_cnt))
 
     return ret_rate
 
@@ -180,7 +180,7 @@ def eval_place_accuracy():
     place_cnt = 36500
     ret_rate = float(hit_cnt) / float(place_cnt)
 
-    print "Place Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_cnt, place_cnt)
+    print("Place Recognition Accuracy : {} ({}/{})".format(ret_rate, hit_cnt, place_cnt))
     return ret_rate
 
 
@@ -188,7 +188,7 @@ def eval_object_accuracy():
     # 또 오해영 실험 결과 (실험3)
     ret_rate = 0.8157
 
-    print "Object Recognition Accuracy : {}".format(ret_rate)
+    print("Object Recognition Accuracy : {}".format(ret_rate))
     return ret_rate
 
 
@@ -218,8 +218,8 @@ def eval_all():
         place_weight, place_err,
         obj_weight, obj_err
     )
-    print
-    print 'Metadata Error Rate = {}'.format(overall)
-    print eval_str
+    print()
+    print('Metadata Error Rate = {}'.format(overall))
+    print(eval_str)
 
 

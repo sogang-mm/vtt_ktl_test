@@ -104,9 +104,9 @@ def find_face(face_list, image_file_name, result_file_name):
     find_cnt = 0
     with open(result_file_name) as data_file:
         data = json.load(data_file)
-
+    
     for face in face_list:
-        for result_face in data['result']:
+        for result_face in data['results']:
             find_cnt = find_cnt + 1
 
     return 1
@@ -116,9 +116,9 @@ def find_object(obj_list, image_file_name, result_file_name):
     find_cnt = 0
     with open(result_file_name) as data_file:
         data = json.load(data_file)
-
+    
     for obj in obj_list:
-        for result_obj in data['results']:
+        for result_obj in data['result']:
             find_cnt = find_cnt + 1
     return 1
 
