@@ -23,9 +23,11 @@ def check_and_downlaod(url, filename, unzip=False):
         wget.download(url, out=data_wd)
         if unzip:
             print("...... Start Unzip " + filename)
-            with zipfile.ZipFile(file_path, "r") as zip_ref:
-                zip_ref.extractall(data_wd)
-
+            with zipfile.ZipFile(file_path, 'r') as zf:
+                zipInfo = zf.infolist()
+                for member in zipInfo:
+                    member.filename = member.filename.encode('cp437').decode('euc-kr', 'ignore')
+                    zf.extract(member, data_wd)
 
 
 # check
